@@ -2,7 +2,7 @@ import React from 'react';
 
 const TableBodyRow = (props) => {
     return(
-        <td>{props.title}</td>
+        <td>{props.id}</td>
     )
 };
 
