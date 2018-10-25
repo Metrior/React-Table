@@ -12,7 +12,8 @@ class Table extends Component {
 
         this.state = {
             activeRowID: [],
-            myUserList: []
+            myUserList: [],
+            searchValue: 0
         }
 
     }
@@ -43,11 +44,17 @@ class Table extends Component {
 
     }
 
+    searchFromTable = (e) =>{
+        const {value} = e.target
+        this.setState({
+            searchValue: value })
+    }
+
     activeRowHanlder = (value) => {
         const array = this.state.activeRowID;
         if (array.indexOf(value) > -1) {
             let indexToRemove = array.indexOf(value);
-            delete array[indexToRemove];
+            array.splice(indexToRemove, 1);
 
         } else {
             array.push(value);
@@ -63,13 +70,14 @@ class Table extends Component {
     }
 
     render() {
-        console.log(this.state.activeRowID)
         const { data } = this.props;
         const headerColumnNames = this.state.myUserList.length > 0 ? Object.keys(this.state.myUserList[0]) : [];
         headerColumnNames.unshift('checkbox');
         const activeColumns = ['checkbox', 'id', 'title'];
         return (
             <div>
+                <input onChange={this.searchFromTable}
+                       placeholder={'search from title'}/>
                 <button
                     style={{ display: this.state.activeRowID.length > 1 ? "block" : "none"}}
                     onClick={this.deleteFromTable}
@@ -85,6 +93,7 @@ class Table extends Component {
                         activeRowHanlder={this.activeRowHanlder}
                         data={data.length > 0 ? data : []}
                         isCheckboxActive={activeColumns.indexOf('checkbox') > -1}
+                        searchValue={this.state.searchValue}
                     >
                     </TableBody>
                 </table>

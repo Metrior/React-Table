@@ -6,10 +6,9 @@ import TableBodyRow from './TableBodyRow';
 
 class TableBody extends Component {
     render() {
-        const { data, isCheckboxActive, activeRowHanlder, activeRowID } = this.props;
-        const TableBodyRow = data
-            // TODO SINGLE SEARCH AS WELL
-            // TODO MAKE MULTIPLY OBJECT SEARCH
+        const { data, isCheckboxActive, activeRowHanlder, activeRowID, searchValue } = this.props;
+        const TableBodyRows = data
+            .filter(item => item.title.indexOf(searchValue) > -1)
             .map(item => (
             // TODO MAKE REFACTORING WITH SCSS
             // TODO https://medium.com/@oreofeolurin/configuring-scss-with-react-create-react-app-1f563f862724
@@ -20,14 +19,14 @@ class TableBody extends Component {
                         type="checkbox"
                     />
                 </td>
-                <td>{item.id}</td>
-                <td>{item.title}</td>
+                <TableBodyRow id={item.id}/>
+                <TableBodyRow id={item.title}/>
             </tr>
             )
         );
         return (
             <tbody>
-                    {TableBodyRow}
+                    {TableBodyRows}
             </tbody>
         );
     }
